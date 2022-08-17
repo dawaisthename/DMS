@@ -1,0 +1,108 @@
+{%extends 'main.html'%} {%block content%}
+<!-- Content Row -->
+<div class="row">
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div
+              class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+            >
+              Total Documents
+            </div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+              {{ count }}
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">All Documents</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            class="table table-bordered"
+            id="dataTable"
+            width="100%"
+            cellspacing="0"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Notes</th>
+                <th>File</th>
+                <th>Upload Date</th>
+                <th>Size</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Notes</th>
+                <th>File</th>
+                <th>Upload Date</th>
+                <th>Size</th>
+                <th>Actions</th>
+              </tr>
+            </tfoot>
+            <tbody>
+              {% for doc in qs %}
+              <tr>
+                <td>{{ doc.name }}</td>
+                <td>{{ doc.author }}</td>
+                <td>{{ doc.notes }}</td>
+                {%if user.is_authenticated%}
+                <td><a href="{{doc.file.url}}">{{ doc.file }}</a></td>
+                {%else%}
+                <td>{{ doc.file }}</td>
+                {%endif%}
+                <td>{{ doc.uploaded_date}}</td>
+                <td>{{ doc.file.size|filesizeformat }}</td>
+                <td>
+                  {%if doc.author == user %}
+                  <a href="{% url 'delete' doc.id %}"
+                    ><i
+                      class="fas fa-trash fa-sm text-red-50"
+                      style="color: rgb(228, 11, 11)"
+                    ></i
+                  ></a>
+                  <a href="{%url 'update' doc.id%}"
+                    ><i class="fas fa-edit fa-sm text-red-50"></i
+                  ></a>
+                  <a href="{%url 'read' %}"
+                    ><i class="fas fa-book-reader"></i
+                  ></a>
+                  {%else%}
+                  <a href="{%url 'read' %}"
+                    ><i class="fas fa-book-reader"></i
+                  ></a>
+                  {%endif%}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+{%endblock%}
