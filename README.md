@@ -1,4 +1,9 @@
+first install the following packages
+1.pillow
+2.cripy forms
+
 # document-managment-system
+
 basically there are two group of users
 1.admin
 2.employee
